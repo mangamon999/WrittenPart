@@ -1,17 +1,17 @@
-\chapter{Algotitimos}
+\chapter{Algotitmos}
 
-Esse capitulo apresentará os algorítimos utilizados para sincronização dos nós da rede, construção do \emph{backbone} (via de transmissão rápida de pacotes). 
-A próxima sessão apresenta o algorítimo selecionado para a sincronização dos nós e razões para a escolha desse algorítimo.
+Esse capitulo apresentará os algoritmos utilizados para sincronização dos nós da rede, construção do \emph{backbone} (via de transmissão rápida de pacotes). 
+A próxima sessão apresenta o algoritmo selecionado para a sincronização dos nós e razões para a escolha desse algoritmo.
 
 \section{Sincronização dos nós}
 
-Como o objetivo do trabalho era o desenvolvimento de um protocolo de comunicação capaz de reduzir o tempo de transmissão de pacotes entre nós distantes na rede e ao mesmo tempo manter o consumo de energia no menos patamar possível, o protocolo S-MAC\cite{ye04} foi selecionado como base para a construção do novo algorítimo. Conforme citado anteriormente na sessão ~\ref{sec:smac}, o algorítimo S-MAC tem como foco o consumo reduzido de energia, além de possuir mecanismos eficientes para redução de perda de pacotes, porém o tempo de transmissão entre nós distantes pode ser muito grande devido ao tamanho dos períodos de dormência dos nós.
+Como o objetivo do trabalho era o desenvolvimento de um protocolo de comunicação capaz de reduzir o tempo de transmissão de pacotes entre nós distantes na rede e ao mesmo tempo manter o consumo de energia no menos patamar possível, o protocolo S-MAC\cite{ye04} foi selecionado como base para a construção do novo algoritmo. Conforme citado anteriormente na sessão ~\ref{sec:smac}, o algoritmo S-MAC tem como foco o consumo reduzido de energia, além de possuir mecanismos eficientes para redução de perda de pacotes, porém o tempo de transmissão entre nós distantes pode ser muito grande devido ao tamanho dos períodos de dormência dos nós.
 
 No protocolo S-MAC\cite{ye04}, cada nó possui pelo menos uma agenda que determina os momentos em que o rádio-transmissor do nó será ligado (quando o nó poderá enviar e receber pacotes) ou desligado. Essa agenda é compartilhada entre nós vizihos, podendo haver regiões que possuam agendas distintas chamadas \emph{clusters}. Para que seja possível a comunicação entre essas regiões distintas, os nós que estejam no limiar dessas regiões compartilham ambas as agendas, dessa forma podendo enviar e receber pacotes para outros nós de ambas as regiões.
 
-O mecanismo de criação e disseminação de agendas no prodocolo S-MAC funciona de maneira auto-organizada, não necessitando de interferência de agente externo. O algorítimo desenvolvido propõe então uma extensão desse algorítimo de sincronização de modo a disponibilizar mecanismos que permitam a configuração de agendas para os nós de maneira arbitrária, possibilitando que determinados nós sejam acordados em momentos específicos. Através desse mecanismo de configuração, o algorítimo proposto nesse trabalho irá determinar que certos nós sigam agendas específicas que farão com que possuam ciclos de atividade com intervalos muito pequenos entre si, de forma a construis uma cadeia de nós que acordem sequencialmente onde, consequentemente, a transmissão de pacotes por múltiplos nós ocorrerá de maneira muito mais rápida.
+O mecanismo de criação e disseminação de agendas no prodocolo S-MAC funciona de maneira auto-organizada, não necessitando de interferência de agente externo. O algoritmo desenvolvido propõe então uma extensão desse algoritmo de sincronização de modo a disponibilizar mecanismos que permitam a configuração de agendas para os nós de maneira arbitrária, possibilitando que determinados nós sejam acordados em momentos específicos. Através desse mecanismo de configuração, o algoritmo proposto nesse trabalho irá determinar que certos nós sigam agendas específicas que farão com que possuam ciclos de atividade com intervalos muito pequenos entre si, de forma a construis uma cadeia de nós que acordem sequencialmente onde, consequentemente, a transmissão de pacotes por múltiplos nós ocorrerá de maneira muito mais rápida.
 
-Para possibilitar um melhor entendimento funcionamento do protocolo S-MAC e do algorítimo proposto, a sessão seguinte irá apresentar mais detalhes do funcionamento do protocolo S-MAC e do protocolo proposto.
+Para possibilitar um melhor entendimento funcionamento do protocolo S-MAC e do algoritmo proposto, a sessão seguinte irá apresentar mais detalhes do funcionamento do protocolo S-MAC e do protocolo proposto.
 
 \subsection{Funcionamento do protocolo S-MAC\cite{ye04}}
 
@@ -25,9 +25,9 @@ A partir do momento em que os nós que utilizam o protocolo S-MAC são ligados, 
 
 A partir do momento em que um nó adquire uma agenda seus ciclos de atividade e sono passarão a ser executados repetidamente. Alguns outros mecanismos fazem parte do protocolo, mas um aprofundamento maior foge ao escopo desse trabalho. Mais detalhes sobre o funcionamento do protocolo S-MAC podem ser encontrados em \cite{ye04}. 
 
-Além dos mecanismos providos pelo protocolo S-MAC o novo algorítimo adiciona uma \emph{API } (\emph{Application Program Interface}) para que outras camadas da pilha de protocolo possam determinar uma nova agenda para o nó. Por meio desta, diferentes tipos de configurações para a sincronização entre os nós podem ser determinadas, por exemplo, pela camada de aplicação.
+Além dos mecanismos providos pelo protocolo S-MAC o novo algoritmo adiciona uma \emph{API } (\emph{Application Program Interface}) para que outras camadas da pilha de protocolo possam determinar uma nova agenda para o nó. Por meio desta, diferentes tipos de configurações para a sincronização entre os nós podem ser determinadas, por exemplo, pela camada de aplicação.
 
-Nesse trabalho, o algorítimo desenvolvido utiliza agentes que percorrem a rede em busca de nós que cumpram determinados requisitos, de modo a formarem uma cadeia circular. Cada um dos nós selecionados é determinado pelo agentes a seguir duas novas agendas uma compartilhada com seu antecessor outra com seu sucessor na estrutura criada, sendo que essas agendas tem um intervalo muito pequeno entre si, suficiente para uma transmissão de pacotes entre os nós. Como resultado do trabalho dos agentes, os nós da cadeia circular estarão sincronizados sequencialmente. Transmissões de pacotes entre nós distantes na rede deverão percorrer essa estrutura visando reduzir o tempo total de transmissão do pacote do nó de origem ao nó destino. As sessões seguintes discutirão os algorítimos utilizados para configuração da rede e disseminação dos agentes.
+Nesse trabalho, o algoritmo desenvolvido utiliza agentes que percorrem a rede em busca de nós que cumpram determinados requisitos, de modo a formarem uma cadeia circular. Cada um dos nós selecionados é determinado pelo agentes a seguir duas novas agendas uma compartilhada com seu antecessor outra com seu sucessor na estrutura criada, sendo que essas agendas tem um intervalo muito pequeno entre si, suficiente para uma transmissão de pacotes entre os nós. Como resultado do trabalho dos agentes, os nós da cadeia circular estarão sincronizados sequencialmente. Transmissões de pacotes entre nós distantes na rede deverão percorrer essa estrutura visando reduzir o tempo total de transmissão do pacote do nó de origem ao nó destino. As sessões seguintes discutirão os algoritmos utilizados para configuração da rede e disseminação dos agentes.
 
 \subsection{Cálculo da distância ao centro da rede}
 \label{sec:calculoDistancia}
@@ -40,11 +40,24 @@ Para aumentar a precisão do cálculo de sua posição, um nó que já tenha rec
 
 \subsection{Construção do círculo}
 
-Dado que a distância de cada nó em relação ao centro da rede podia ser obtida através das soluções apresentadas na sessão anterior ~\ref{sec:calculoDistancia}, foram utilizados três agentes para a construção da estrutura circular: 
+Dado que a distância de cada nó em relação ao centro da rede pode ser obtida através das soluções apresentadas na sessão anterior ~\ref{sec:calculoDistancia}, foram utilizados três agentes para a construção da estrutura circular: 
 
 \begin{itemize}
  \item[\emph{Root finder:}] responsável por percorrer a rede em busca de algum nó que cumpra o requisito de distância do centro da rede (raio do circulo formado). O nó selecionado por esse agente será o nó raiz na estrutura a ser formada. Após encontrar o nó raiz, esse agente irá criar o próximo agente. 
  \item[\emph{Circle builder:}] responsável por criar as agendas para cada nó (incluindo o nó raiz), determinar qual vai ser o próximo nó que fará parte da estrutura. Ele selecionará vários nós (conforme os mesmos parâmetros do nó anterior) até alcançar algum que já faça parte da estrutura (fechando o círculo), quando então ele criará o próximo agente.
  \item[\emph{Circle revoker:}] caso o último nó encontrado pelo agente \emph{Circle builder} não coincida com o nó raiz encontrado pelo agente \emph{Root finder}, esse agente será responsável por remover as agendas extras dos nós que foram selecionado, mas não fazem parte do círculo formado (``pontas soltas''), fazendo com que eles voltem a seguir apenas suas agendas originais.
 \end{itemize}
+
+\subsection{Roteamento dos pacotes}
+
+Para que a configuração circular formada dentro da rede pelos algoritmos descritos nas sessões anteriores produza efeitos sobre o tempo das transmissões de pacotes dentro da rede, é preciso rotear os pacotes de forma que, caso seja possível, eles sejam encaminhados atrávés da estrutura formada até um ponto próximo do nó destino, quando o pacote deixará a estrutura e será encaminhado ao seu destino através dos mecanismos normais. 
+
+A elaboração de um algoritmo de roteamento de pacotes foge ao escopo desse trabalho. Portanto, com o objetivo de avaliar o desempenho do algoritmo proposto, a determinação do nó receptor em cada transmissão foi feita pelo gerenciador da simulação conforme os seguintes critérios:
+
+\begin{itemize}
+\item Caso haja um nó vizinho ao nó transmissor que pertencente à estrutura formada e que esteja mais próximo do nó de destino do pacote do que o transmisso, esse nó será selecionado
+\item Caso o critério anterior não seja cumprido, será selecionado como receptor um dos três nós vizinhos mais próximos do nó de destino
+\end{itemize}
+
+Utilizando esses critérios foi possível simular um algoritmo de roteamento capaz de fazer com que os pacotes sejam transmitidos através da estrutura circular formada, possibilitanto assim a avaliação de seu desempenho.
 
