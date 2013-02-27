@@ -1,0 +1,50 @@
+\chapter{Algotitimos}
+
+Esse capitulo apresentará os algorítimos utilizados para sincronização dos nós da rede, construção do \emph{backbone} (via de transmissão rápida de pacotes). 
+A próxima sessão apresenta o algorítimo selecionado para a sincronização dos nós e razões para a escolha desse algorítimo.
+
+\section{Sincronização dos nós}
+
+Como o objetivo do trabalho era o desenvolvimento de um protocolo de comunicação capaz de reduzir o tempo de transmissão de pacotes entre nós distantes na rede e ao mesmo tempo manter o consumo de energia no menos patamar possível, o protocolo S-MAC\cite{ye04} foi selecionado como base para a construção do novo algorítimo. Conforme citado anteriormente na sessão ~\ref{sec:smac}, o algorítimo S-MAC tem como foco o consumo reduzido de energia, além de possuir mecanismos eficientes para redução de perda de pacotes, porém o tempo de transmissão entre nós distantes pode ser muito grande devido ao tamanho dos períodos de dormência dos nós.
+
+No protocolo S-MAC\cite{ye04}, cada nó possui pelo menos uma agenda que determina os momentos em que o rádio-transmissor do nó será ligado (quando o nó poderá enviar e receber pacotes) ou desligado. Essa agenda é compartilhada entre nós vizihos, podendo haver regiões que possuam agendas distintas chamadas \emph{clusters}. Para que seja possível a comunicação entre essas regiões distintas, os nós que estejam no limiar dessas regiões compartilham ambas as agendas, dessa forma podendo enviar e receber pacotes para outros nós de ambas as regiões.
+
+O mecanismo de criação e disseminação de agendas no prodocolo S-MAC funciona de maneira auto-organizada, não necessitando de interferência de agente externo. O algorítimo desenvolvido propõe então uma extensão desse algorítimo de sincronização de modo a disponibilizar mecanismos que permitam a configuração de agendas para os nós de maneira arbitrária, possibilitando que determinados nós sejam acordados em momentos específicos. Através desse mecanismo de configuração, o algorítimo proposto nesse trabalho irá determinar que certos nós sigam agendas específicas que farão com que possuam ciclos de atividade com intervalos muito pequenos entre si, de forma a construis uma cadeia de nós que acordem sequencialmente onde, consequentemente, a transmissão de pacotes por múltiplos nós ocorrerá de maneira muito mais rápida.
+
+Para possibilitar um melhor entendimento funcionamento do protocolo S-MAC e do algorítimo proposto, a sessão seguinte irá apresentar mais detalhes do funcionamento do protocolo S-MAC e do protocolo proposto.
+
+\subsection{Funcionamento do protocolo S-MAC\cite{ye04}}
+
+A partir do momento em que os nós que utilizam o protocolo S-MAC são ligados, eles realizam as seguintes operações:
+
+\begin{itemize}
+	\item ``Ouvir'' um ciclo inteiro esperando receber uma agenda que possa seguir.
+	\item Caso não receba uma agenda, fará um teste utilizando um valor aleatório para determinar se criará sua propria agenda ou continuará a ``ouvir'' o meio mais um ciclo.
+	\item Tendo criado ou recebido uma agenda, irá configurar-se para acordar e dormir de acordo com essa agenda.
+\end{itemize}
+
+A partir do momento em que um nó adquire uma agenda seus ciclos de atividade e sono passarão a ser executados repetidamente. Alguns outros mecanismos fazem parte do protocolo, mas um aprofundamento maior foge ao escopo desse trabalho. Mais detalhes sobre o funcionamento do protocolo S-MAC podem ser encontrados em \cite{ye04}. 
+
+Além dos mecanismos providos pelo protocolo S-MAC o novo algorítimo adiciona uma \emph{API } (\emph{Application Program Interface}) para que outras camadas da pilha de protocolo possam determinar uma nova agenda para o nó. Por meio desta, diferentes tipos de configurações para a sincronização entre os nós podem ser determinadas, por exemplo, pela camada de aplicação.
+
+Nesse trabalho, o algorítimo desenvolvido utiliza agentes que percorrem a rede em busca de nós que cumpram determinados requisitos, de modo a formarem uma cadeia circular. Cada um dos nós selecionados é determinado pelo agentes a seguir duas novas agendas uma compartilhada com seu antecessor outra com seu sucessor na estrutura criada, sendo que essas agendas tem um intervalo muito pequeno entre si, suficiente para uma transmissão de pacotes entre os nós. Como resultado do trabalho dos agentes, os nós da cadeia circular estarão sincronizados sequencialmente. Transmissões de pacotes entre nós distantes na rede deverão percorrer essa estrutura visando reduzir o tempo total de transmissão do pacote do nó de origem ao nó destino. As sessões seguintes discutirão os algorítimos utilizados para configuração da rede e disseminação dos agentes.
+
+\subsection{Cálculo da distância ao centro da rede}
+\label{sec:calculoDistancia}
+
+Para se determinar a distância de cada nó ao centro da rede é necessário conhecer a sua posição, a maneira mais simples é a utilização de nós que possuam sistema de \emph{GPS} (\emph{Global Positioning System} ou Sistema de Posicionamento Global). Tal sistema permite determinar com precisão a posição a posição de cada nó. Bastaria então que os agentes conhecessem as coordenadas de um ponto no centro da rede para que pudesse determinar se um nó satisfaz ou não os parâmetros que determinam o raio da estrutura circular a ser construída.
+
+Para a utilização de sistema de posicionamento global (GPS) é necessário que cada nó possua \emph{hardware} específico para tal, o que aumenta o seu custo e consumo de energia. Como alternativa ao uso desse sistema é possível realizar o cálculo das distâncias a partir de um no central. Esse nó inicial comunicaria em \emph{broadcast} aos seus vizinhos que ele é o ponto zero. Cada um de seus vizinhos que receba esse pacote poderá determinar sua distância a esse nó central com base na intensidade do sinal recebido.  Cada um desses nós então irá fazer um novo \emph{broadcast} para informar sua distância do centro e assim sucessivamente. 
+
+Para aumentar a precisão do cálculo de sua posição, um nó que já tenha recebido um desses pacotes e receba um novo pacote que determine que uma distância menor ao centro da rede, atualizará seu parâmetro de distância e fará um novo \emph{broadcast} para atualizar seus vizinhos. Isso irá gerar um \emph{flooding} de pacotes na rede, após o qual cada nó conhecerá sua posição e a de seus vizinhos e os agentes poderão utilizar esses valores para a construção da estrutura circular. 
+
+\subsection{Construção do círculo}
+
+Dado que a distância de cada nó em relação ao centro da rede podia ser obtida através das soluções apresentadas na sessão anterior ~\ref{sec:calculoDistancia}, foram utilizados três agentes para a construção da estrutura circular: 
+
+\begin{itemize}
+ \item[\emph{Root finder:}] responsável por percorrer a rede em busca de algum nó que cumpra o requisito de distância do centro da rede (raio do circulo formado). O nó selecionado por esse agente será o nó raiz na estrutura a ser formada. Após encontrar o nó raiz, esse agente irá criar o próximo agente. 
+ \item[\emph{Circle builder:}] responsável por criar as agendas para cada nó (incluindo o nó raiz), determinar qual vai ser o próximo nó que fará parte da estrutura. Ele selecionará vários nós (conforme os mesmos parâmetros do nó anterior) até alcançar algum que já faça parte da estrutura (fechando o círculo), quando então ele criará o próximo agente.
+ \item[\emph{Circle revoker:}] caso o último nó encontrado pelo agente \emph{Circle builder} não coincida com o nó raiz encontrado pelo agente \emph{Root finder}, esse agente será responsável por remover as agendas extras dos nós que foram selecionado, mas não fazem parte do círculo formado (``pontas soltas''), fazendo com que eles voltem a seguir apenas suas agendas originais.
+\end{itemize}
+
