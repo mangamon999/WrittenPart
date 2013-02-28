@@ -51,7 +51,7 @@
 % precisa instalar o abntex antes!!!
 % http://abntex.codigolivre.org.br/
 % comente se pretende usar outro padrão
-% % % % Uncomment% % % % \usepackage[alf,abnt-etal-cite=3,abnt-etal-list=0,abnt-etal-text=emph]{abntcite}
+\usepackage[alf,abnt-etal-cite=3,abnt-etal-list=0,abnt-etal-text=emph]{abntex2cite}
 
 
 % redefinindo formatação de títulos de tabelas e figuras
@@ -127,9 +127,9 @@ Sistemas de Informação para obtenção do título de Bacharel em Sistemas de I
 \listoffigures                             % Lista de Figuras
 \listoftables                              % Lista de Tabelas
 
-\abstract{Redes de sensores sem fio (RSSF) tem sido cada vez mais utilizadas em variados tipos de aplicações. Crescentes avanços tecnológicos nas áreas de sensores, radiotransmissores e outros equipamentos utilizados na construções de nós sensores dos quais são compostas essas redes tem reduzido a cada dia o custo de produção, bem como o de aquisição, desses equipamentos. Isso faz com que seja mais vantajoso a substituição dos nós que deixam de ser funcionais. Devido a isso e ao fato de que, em geral, nós sensores são alimentados por baterias e são dispostos muitas vezes em regiões que inviabilizam a substituição dessas baterias é importante desenvolver mecanismos que promovam um aumento na vida útil desses nós e, consequentemente, da rede como um todo. Os maiores consumidores de energia em nós sensores são os radiotransmissores. Através da utilização de protocolos de controle de acesso ao meio é possível manter controle sobre o ligamento e desligamento desses dispositivos, além de aumentar a eficiência de sua utilização por meio da eliminação ou diminuição da ocorrência de eventos que culminem na necessidade de retransmissão (por exemplo colisão de pacotes), dentre outros benefícios. Este trabalho contém informações gerais sobre as características das RSSF e cada uma das camadas da pilha de protocolos utilizados nesse tipo de rede. São apresentadas também informações relacionadas aos padrões de comunicação presentes nesse tipo de rede, bem como uma classificação dos protocolos MAC quanto à distribuição dos recursos para os nós, contendo exemplos de cada tipo de protocolo. E ao final são apresentados exemplos de protocolos MAC auto-organizados, seus mecanismos, suas vantagens e desvantagens.}%
+\resumo{Redes de sensores sem fio (RSSF) tem sido cada vez mais utilizadas em variados tipos de aplicações. Crescentes avanços tecnológicos nas áreas de sensores, radiotransmissores e outros equipamentos utilizados na construções de nós sensores dos quais são compostas essas redes tem reduzido a cada dia o custo de produção, bem como o de aquisição, desses equipamentos. Isso faz com que seja mais vantajoso a substituição dos nós que deixam de ser funcionais. Devido a isso e ao fato de que, em geral, nós sensores são alimentados por baterias e são dispostos muitas vezes em regiões que inviabilizam a substituição dessas baterias é importante desenvolver mecanismos que promovam um aumento na vida útil desses nós e, consequentemente, da rede como um todo. Os maiores consumidores de energia em nós sensores são os radiotransmissores. Através da utilização de protocolos de controle de acesso ao meio é possível manter controle sobre o ligamento e desligamento desses dispositivos, além de aumentar a eficiência de sua utilização por meio da eliminação ou diminuição da ocorrência de eventos que culminem na necessidade de retransmissão (por exemplo colisão de pacotes), dentre outros benefícios. Este trabalho contém informações gerais sobre as características das RSSF e cada uma das camadas da pilha de protocolos utilizados nesse tipo de rede. São apresentadas também informações relacionadas aos padrões de comunicação presentes nesse tipo de rede, bem como uma classificação dos protocolos MAC quanto à distribuição dos recursos para os nós, contendo exemplos de cada tipo de protocolo. E ao final são apresentados exemplos de protocolos MAC auto-organizados, seus mecanismos, suas vantagens e desvantagens.}%
 %
-{Wireless sensor networks (WSN) have been increasingly used in various types of applications. Increasing technological advancements in the areas of sensors, radio transceivers and other equipment used in the construction of sensor nodes that compose such networks has reduced production cost as well as the acquisition cost of such equipment. This makes it more interesting to replace the nodes that are no longer functional. Because of this and the fact that, in general, sensor nodes are powered by batteries and are often arranged in regions that prevent the replacement of these batteries, is important to develop mechanisms that promote an increase in the lifetime of these nodes and thus the network as a whole. The biggest consumers of energy in sensor nodes are the radio transceivers. Through the use of medium access control protocols (MAC) you can maintain control over the states (turned on/turned off) of such devices. In addition, it's possible to increasing the efficiency of its use through the elimination or reduction of the occurrence of events that culminate in the need for retransmission (e.g. collision of packets), and so forth. This work contains general information about the characteristics of wireless sensor networks and every layer of the protocol stack used in this type of network. It's also presented information related to communication patterns present in this type of network, and a classification of MAC protocols on the distribution of resources for the nodes, containing examples of each type of protocol. And at the end there are examples of self-organized MAC protocols, its mechanisms, advantages and disadvantages.}                         % Resumo (digite aqui o resumo)
+\resumoingles{Wireless sensor networks (WSN) have been increasingly used in various types of applications. Increasing technological advancements in the areas of sensors, radio transceivers and other equipment used in the construction of sensor nodes that compose such networks has reduced production cost as well as the acquisition cost of such equipment. This makes it more interesting to replace the nodes that are no longer functional. Because of this and the fact that, in general, sensor nodes are powered by batteries and are often arranged in regions that prevent the replacement of these batteries, is important to develop mechanisms that promote an increase in the lifetime of these nodes and thus the network as a whole. The biggest consumers of energy in sensor nodes are the radio transceivers. Through the use of medium access control protocols (MAC) you can maintain control over the states (turned on/turned off) of such devices. In addition, it's possible to increasing the efficiency of its use through the elimination or reduction of the occurrence of events that culminate in the need for retransmission (e.g. collision of packets), and so forth. This work contains general information about the characteristics of wireless sensor networks and every layer of the protocol stack used in this type of network. It's also presented information related to communication patterns present in this type of network, and a classification of MAC protocols on the distribution of resources for the nodes, containing examples of each type of protocol. And at the end there are examples of self-organized MAC protocols, its mechanisms, advantages and disadvantages.}                         % Resumo (digite aqui o resumo)
 
 \clearpage
 
@@ -140,16 +140,19 @@ Sistemas de Informação para obtenção do título de Bacharel em Sistemas de I
 % incluindo os capitulos
 
 \include{Introduction}
+\include{Motivation}
+\include{Goals}
 \include{TheoreticalReferences}
 \include{Methodology}
-\include{ExpectedResults}
+%\include{ExpectedResults}
 \include{Algoritimos}
 
 %==============================================================================
 % Incluindo bibliografia
-\bibliographystyle{plain}             % estilo para labels em numeros
+%\bibliographystyle{plain}             % estilo para labels em numeros
 %\bibliographystyle{alpha}             % estilo para labels em iniciais
 %\bibliographystyle{abnt-alf}           % estilo para referências usando ABNT, 
+\bibliographystyle{abntex2-alf}
                                        % precisa instalar o abntex para usar!!!
 
 %inclui Referências Bibliográficas

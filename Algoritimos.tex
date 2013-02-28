@@ -1,9 +1,9 @@
-\chapter{Algotitmos}
+\section{Algotitmos}
 
 Esse capitulo apresentará os algoritmos utilizados para sincronização dos nós da rede, construção do \emph{backbone} (via de transmissão rápida de pacotes). 
 A próxima sessão apresenta o algoritmo selecionado para a sincronização dos nós e razões para a escolha desse algoritmo.
 
-\section{Sincronização dos nós}
+\subsection{Sincronização dos nós}
 
 Como o objetivo do trabalho era o desenvolvimento de um protocolo de comunicação capaz de reduzir o tempo de transmissão de pacotes entre nós distantes na rede e ao mesmo tempo manter o consumo de energia no menos patamar possível, o protocolo S-MAC\cite{ye04} foi selecionado como base para a construção do novo algoritmo. Conforme citado anteriormente na sessão ~\ref{sec:smac}, o algoritmo S-MAC tem como foco o consumo reduzido de energia, além de possuir mecanismos eficientes para redução de perda de pacotes, porém o tempo de transmissão entre nós distantes pode ser muito grande devido ao tamanho dos períodos de dormência dos nós.
 
@@ -43,9 +43,9 @@ Para aumentar a precisão do cálculo de sua posição, um nó que já tenha rec
 Dado que a distância de cada nó em relação ao centro da rede pode ser obtida através das soluções apresentadas na sessão anterior ~\ref{sec:calculoDistancia}, foram utilizados três agentes para a construção da estrutura circular: 
 
 \begin{itemize}
- \item[\emph{Root finder:}] responsável por percorrer a rede em busca de algum nó que cumpra o requisito de distância do centro da rede (raio do circulo formado). O nó selecionado por esse agente será o nó raiz na estrutura a ser formada. Após encontrar o nó raiz, esse agente irá criar o próximo agente. 
- \item[\emph{Circle builder:}] responsável por criar as agendas para cada nó (incluindo o nó raiz), determinar qual vai ser o próximo nó que fará parte da estrutura. Ele selecionará vários nós (conforme os mesmos parâmetros do nó anterior) até alcançar algum que já faça parte da estrutura (fechando o círculo), quando então ele criará o próximo agente.
- \item[\emph{Circle revoker:}] caso o último nó encontrado pelo agente \emph{Circle builder} não coincida com o nó raiz encontrado pelo agente \emph{Root finder}, esse agente será responsável por remover as agendas extras dos nós que foram selecionado, mas não fazem parte do círculo formado (``pontas soltas''), fazendo com que eles voltem a seguir apenas suas agendas originais.
+ \item \textbf{\emph{Root finder:}} responsável por percorrer a rede em busca de algum nó que cumpra o requisito de distância do centro da rede (raio do circulo formado). O nó selecionado por esse agente será o nó raiz na estrutura a ser formada. Após encontrar o nó raiz, esse agente irá criar o próximo agente. 
+ \item \textbf{\emph{Circle builder:}} responsável por criar as agendas para cada nó (incluindo o nó raiz), determinar qual vai ser o próximo nó que fará parte da estrutura. Ele selecionará vários nós (conforme os mesmos parâmetros do nó anterior) até alcançar algum que já faça parte da estrutura (fechando o círculo), quando então ele criará o próximo agente.
+ \item \textbf{\emph{Circle revoker:}} caso o último nó encontrado pelo agente \emph{Circle builder} não coincida com o nó raiz encontrado pelo agente \emph{Root finder}, esse agente será responsável por remover as agendas extras dos nós que foram selecionado, mas não fazem parte do círculo formado (``pontas soltas''), fazendo com que eles voltem a seguir apenas suas agendas originais.
 \end{itemize}
 
 \subsection{Roteamento dos pacotes}
@@ -60,4 +60,6 @@ A elaboração de um algoritmo de roteamento de pacotes foge ao escopo desse tra
 \end{itemize}
 
 Utilizando esses critérios foi possível simular um algoritmo de roteamento capaz de fazer com que os pacotes sejam transmitidos através da estrutura circular formada, possibilitanto assim a avaliação de seu desempenho.
+
+
 
