@@ -81,18 +81,18 @@ FAE-PE Recovery TelEduc Williams}
 %==============================================================================
 \author{Bruno Vitor Almeida Pinheiro}
 \title{Simulação de algoritmo auto organizado para protocolo MAC em redes de sensores sem fio}
-\date{2012}
+\date{2013}
 \tipo{Monografia de Graduação  apresentada ao Departamento de Ciência da Computação 
 da Universidade Federal de Lavras como parte das exigências do curso de 
 Sistemas de Informação para obtenção do título de Bacharel em Sistemas de Informação.}
 \areaconcentracao{Protocolos de Controle de Acesso ao Meio em Redes de Sensores Sem Fio}
-\orientador{Prof. Tales}
+\orientador{Prof. Dr. Tales Heimfarth}
 % \coorientador{Prof. Silvino Santiago} % comente se não tiver coorientador
 %\coorientadordois{Prof. Tiagão Meganha} % comente se não tiver coorientador
-\bancaum{Prof. Xxxxx Xxxxxx}
-\bancadois{Prof. Xxxxx Xxxxxx} % comente se sua banca tiver só um professor
+\bancaum{Prof. Dr. Luiz Henrique Andrade Correia - UFLA}
+\bancadois{Prof. Dr. João Carlos Giacomin - UFLA} % comente se sua banca tiver só um professor
 %\bancatres{Fulanim de Sicrano}% comente se sua banca tiver só um professor
-\defesa{dd de MM de yyyy}
+\defesa{Abril de 2013}
 \palchaves{Protocolo de controle de acesso ao meio; Auto-organização; Redes de sensores sem fio; RSSF; MAC.}
 \keywords{Medium access control protocol; Self-organization; Wireless sensor networks; WSN; MAC.}
 %==============================================================================
@@ -117,20 +117,29 @@ Sistemas de Informação para obtenção do título de Bacharel em Sistemas de I
 \begin{document}
 \maketitle
 
-\dedic{Dedico esta monografia...}     % Dedicatórias
-\thanks{Agradeço aos...}         % Agradecimentos
+%\dedic{Dedico esta monografia...}     % Dedicatórias
+\thanks{
+À Universidade Federal de Lavras (UFLA) e ao Departamento de Ciência da Computação (DCC), pela oportunidade concedida para realização deste trabalho.
+
+Aos professores do Departamento, pelos ensinamentos transmitidos e harmoniosa convivência.
+
+Ao professor Dr. Tales Heimfarth pela orientação, paciência, amizade, dedicação e seus ensinamentos que foram de grande relevância para a realização deste trabalho.
+
+Aos professores Dr. João Carlos Giacomin e Dr. Luiz Henrique Andrade Correia, pela amizade, companheirismo e ensinamentos, que foram de grande valia para a realização deste trabalho e por se disporem a participar como membros na banca examinadora.
+
+Aos amigos graduandos, em especial a Alex Guimarães e Jesimar Arantes, por todo o apoio e incentivo durante a realização do trabalho.}         % Agradecimentos
 
 \pagestyle{ufla}
 \pagenumbering{roman}
 
 \tableofcontents                           % Sumário}
 \listoffigures                             % Lista de Figuras
-\listoftables                              % Lista de Tabelas
+%\listoftables                              % Lista de Tabelas
 
-\resumo{Redes de sensores sem fio (RSSF) tem sido cada vez mais utilizadas em variados tipos de aplicações, em especial em ambientes de difícil acesso como regiões contaminadas, muito acidentadas ou que apresentem grande risco à saude de seres humanos. RSSFs são redes compostas por nós sensores alimentados por baterias. Devido as restrições de acesso às regiões onde essas redes são dispostas a substituição dessas baterias torna-se inviável. Sendo assim, é essencial desenvolver mecanismos capazes de reduzir o consumo de energia pelos nós com o objetivo de ampliar o tempo de vida útil da rede. Diversos algoritmos e protocolos tem sido propostos e os mais eficientes envolvem manter desligados os \emph{hardwares} de transmissão dos nós (rádio transmissores) durante a maior parte do tempo. Isso faz com que o tempo de transmissão de dados entre pontos distantes na rede seja muito longo, uma vez que o período de atividade (radio ligado) de cada nó é muito pequeno em relação ao periodo de inatividade (radio desligado). Com o objetivo de amenizar essa consequência negativa da utilização de tais mecanismos, esse trabalho propõe uma extensão a um protocolo de controle de acesso ao meio S-MAC de forma a possibilitar que os ciclos de atividade de alguns nós seja sincronizado de tal forma que o tempo entre os ciclos de atividades de nós próximos seja bastante reduzido, reduzindo assim o tempo de espera para transmissão de pacotes e, consequentemente, reduzindo o tempo de transmissão de pacotes entre nós distantes na rede desde que esses passem pelos nós sincronizados dessa maneira.
+\resumo{Redes de sensores sem fio (RSSF) tem sido cada vez mais utilizadas em variados tipos de aplicações, em especial em ambientes de difícil acesso como regiões contaminadas, muito acidentadas ou que apresentem grande risco à saúde de seres humanos. RSSFs são redes compostas por nós sensores alimentados por baterias. Devido as restrições de acesso às regiões onde essas redes são dispostas a substituição dessas baterias torna-se inviável. Sendo assim, é essencial desenvolver mecanismos capazes de reduzir o consumo de energia pelos nós com o objetivo de ampliar o tempo de vida útil da rede. Diversos algoritmos e protocolos tem sido propostos e os mais eficientes envolvem manter desligados os \emph{hardwares} de transmissão dos nós (rádio transmissores) durante a maior parte do tempo. Isso faz com que o tempo de transmissão de dados entre pontos distantes na rede seja muito longo, uma vez que o período de atividade (radio ligado) de cada nó é muito pequeno em relação ao período de inatividade (rádio desligado). Com o objetivo de amenizar essa consequência negativa da utilização de tais mecanismos, esse trabalho propõe uma extensão a um protocolo de controle de acesso ao meio S-MAC de forma a possibilitar que os ciclos de atividade de alguns nós seja sincronizado de tal forma que o tempo entre os ciclos de atividades de nós próximos seja bastante reduzido, reduzindo assim o tempo de espera para transmissão de pacotes e, consequentemente, reduzindo o tempo de transmissão de pacotes entre nós distantes na rede desde que esses passem pelos nós sincronizados dessa maneira.
 }%
 %
-\resumoingles{Wireless Sensor Networks (WSN) have been increasingly used in various types of applications, especially in inaccessible environments as contaminated  regions, too rugged regions, or regions with great risk to the health of humans. WSNs are networks consisting of sensor nodes powered by batteries. Because of access restrictions to areas where such networks are installed it becomes unviable to replace these batteries. Therefore, it is essential to develop mechanisms to reduce the power consumption by the nodes with the objective of extending the lifetime of the network. Various algorithms and protocols have been proposed and most efficient ones involve keeping the radio transmitter hardware of the nodes turned off during most of the time. This makes the time of data transmission between distant points in the network become very long, since the period of activity (radio on) of each node is very small relative to the period of inactivity (radio off). Aiming to mitigate this negative consequence of the use of these mechanisms, this work proposes an extension to an existing medium access control protocol called S-MAC in order to allow the cycles of activity of some nodes to be synchronized so that the time between activity cycles of nearby nodes is greatly reduced, thereby reducing the waiting time for transmission of packets and the transmission time of packets between distant nodes in the network provided that they pass through nodes synchronized in this way.)
+\resumoingles{Wireless Sensor Networks (WSN) have been increasingly used in various types of applications, especially in inaccessible environments as contaminated  regions, too rugged regions, or regions with great risk to the health of humans. WSNs are networks consisting of sensor nodes powered by batteries. Because of access restrictions to areas where such networks are installed it becomes unviable to replace these batteries. Therefore, it is essential to develop mechanisms to reduce the power consumption by the nodes with the objective of extending the lifetime of the network. Various algorithms and protocols have been proposed and most efficient ones involve keeping the rádio transmitter hardware of the nodes turned off during most of the time. This makes the time of data transmission between distant points in the network become very long, since the period of activity (rádio on) of each node is very small relative to the period of inactivity (rádio off). Aiming to mitigate this negative consequence of the use of these mechanisms, this work proposes an extension to an existing medium access control protocol called S-MAC in order to allow the cycles of activity of some nodes to be synchronized so that the time between activity cycles of nearby nodes is greatly reduced, thereby reducing the waiting time for transmission of packets and the transmission time of packets between distant nodes in the network provided that they pass through nodes synchronized in this way.)
 }
 \clearpage
 

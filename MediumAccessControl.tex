@@ -12,7 +12,7 @@ Segundo \citeauthoronline{Ye2002} (\citeyear{Ye2002}), para desenvolver protocol
  
 Segundo \citeauthoronline{Demirkol2006} (\citeyear{Demirkol2006}), os tipos de padrões de comunicação em RSSFs determinam o comportamento do tráfego de dados na redes de sensores que deve ser tratado pelos protocolos da camada MAC. 
 
-\citeauthoronline{Kulkarni2004} (\citeyear{Kulkarni2004}) define três tipos de comunicação em redes de sensores sem fio: \textit{broadcast}, \textit{convergecast}, \textit{local gossip}. O padrão \textit{broadcast} é geralmente utilizados por estações base (\textit{sink nodes}) para trasmitir informações para todos os nós da rede. Pacotes enviados em \textit{broadcast} podem conter requisições por informações dos sensores, atualizações do programa para os nós sensores, pacotes de controle para todo o sistema, etc. \textit{Local gossip} ocorre quando um nó sensor detecta um evento e o comunica a cada um de seus vizinhos localmente (dentro do alcance de seu radio transmissor). Após um grupo de nós detectar um evento, é necessário comunicá-lo ao centro de informações, esse padrão de comunicação é chamado \textit{convergecast} (quando um grupo de sensores se comunica com um sensor específico).
+\citeauthoronline{Kulkarni2004} (\citeyear{Kulkarni2004}) define três tipos de comunicação em redes de sensores sem fio: \textit{broadcast}, \textit{convergecast}, \textit{local gossip}. O padrão \textit{broadcast} é geralmente utilizados por estações base (\textit{sink nodes}) para transmitir informações para todos os nós da rede. Pacotes enviados em \textit{broadcast} podem conter requisições por informações dos sensores, atualizações do programa para os nós sensores, pacotes de controle para todo o sistema, etc. \textit{Local gossip} ocorre quando um nó sensor detecta um evento e o comunica a cada um de seus vizinhos localmente (dentro do alcance de seu radio transmissor). Após um grupo de nós detectar um evento, é necessário comunicá-lo ao centro de informações, esse padrão de comunicação é chamado \textit{convergecast} (quando um grupo de sensores se comunica com um sensor específico).
 
 %---------------------------------------------------------------------
 \subsection{Classificação de Protocolos de Controle de Acesso ao Meio}
@@ -42,17 +42,17 @@ A cada dia surgem novas propostas de protocolos MAC que utilizam diferentes téc
  
  Um exemplo desse tipo de protocolo é o ALOHA, que permite que os nós enviem pacotes no momento em que existam pacotes a serem enviados. Em seguida eles devem aguardar a confirmação do recebimento dos pacotes e, em caso positivo enviar o pacote seguinte (caso haja) ou, no caso contrário, reenviar o pacote \cite{Baccelli06analoha}.
  
-\section{Auto-Organização em RSSF}
+\section{Auto Organização em RSSF}
 
- Auto-organização é um processo pelo qual estrutura e funcionalidade (padrão) em nível global de um sistema emergem unicamente de numerosas interações entre componentes de baixo nível de um sistema sem qualquer controle externo ou centralizado. Os componentes do sistema interagem em um contexto local por meio de comunicação direta ou observações ambientais sem referência a um padrão global \cite{Dressler2008}.
+ Auto organização é um processo pelo qual estrutura e funcionalidade (padrão) em nível global de um sistema emergem unicamente de numerosas interações entre componentes de baixo nível de um sistema sem qualquer controle externo ou centralizado. Os componentes do sistema interagem em um contexto local por meio de comunicação direta ou observações ambientais sem referência a um padrão global \cite{Dressler2008}.
  
- \subsection{Protocolos MAC auto-organizáveis}
+ \subsection{Protocolos MAC auto organizáveis}
  
- A utilização de auto-organização em redes de sensores sem fio possibilita ganhos em certos atributos dessas redes, como escalabilidade, consumo de energia, tolerância a falhas, etc. Em protocolos de acesso ao meio, auto-organização é utilizada em mecanismos como: atribuição de recursos aos nós \cite{Dressler2008}, determinação de ciclos de sono%
+ A utilização de auto organização em redes de sensores sem fio possibilita ganhos em certos atributos dessas redes, como escalabilidade, consumo de energia, tolerância a falhas, etc. Em protocolos de acesso ao meio, auto organização é utilizada em mecanismos como: atribuição de recursos aos nós \cite{Dressler2008}, determinação de ciclos de sono%
  % FOOTNOTE begin 
  \footnote{Com o objetivo de aumentar o tempo de vida útil das RSSF são utilizados ciclos de sono (\textit{sleep-wakeup cycle} ou \textit{duty cycle}) onde cada nó é ligado apenas por um curto período de tempo (\textit{wakeup}) e então desligado novamente (\textit{sleep}). A utilização desses ciclos pode aumentar a vida útil das RSSF, devido à redução do consumo de energia durante o período de sono \textit{sleep}, de poucos dias para vários meses ou mesmo anos dependendo da razão entre o tempo em que o nó permanece ligado e o tempo em que permanece desligado.}
  % FOOTNOTE end
- \cite{Halkes:2005}, roteamento de pacotes, etc. Existem muitos exemplos de protocolos de controle de acesso ao meio que utilizam esse tipo de organização para diversos fins, abaixo estão apresentados alguns desses protocolos e o modo como a auto-organização é empregada neles.
+ \cite{Halkes:2005}, roteamento de pacotes, etc. Existem muitos exemplos de protocolos de controle de acesso ao meio que utilizam esse tipo de organização para diversos fins, abaixo estão apresentados alguns desses protocolos e o modo como a auto organização é empregada neles.
  
  \subsubsection{WiseMAC}
  
@@ -77,7 +77,7 @@ A cada dia surgem novas propostas de protocolos MAC que utilizam diferentes téc
  
 Sensor-MAC ou S-MAC foi desenvolvido para ter primordialmente baixo consumo de energia, além disso conseguiu-se também boa escalabilidade e baixo número de colisões \cite{ye04}. Para conseguir esse resultados foram tratados os seguintes problemas identificados pelo autor como responsáveis pelo consumo excessivo de energia na rede: colisões de pacotes, que causam a retransmissão desses pacotes e consequente consumo extra de energia além de aumentar a latência na rede; \textit{overhearing}, que acontece quando os nós recebem pacotes que não são destinados a eles; excesso (\textit{overhead}) de pacotes de controle; e \textit{idle listening}, quando um nó permanece em modo de recepção aguardando por pacotes que não são enviados.
 
-Para alcançar esses resultados foi adotado um padrão de ciclos de sono com períodos longos de inatividade (período de sono) e períodos de atividade curtos. Auto-organização está presente na sincronização dos períodos de atividade/sono dos nós em uma vizinhança, fazendo com que os nós adotem um mesmo cronograma de funcionamento. Isso possibilita que eles possam se comunicar e transmitir informações com eficiência apesar do maior tempo de inatividade. Além disso pode-se reduzir o tamanho dos preâmbulos pois tem-se uma garantia de que os nós aos quais os dados se destinam estarão acordados no mesmo momento (ou em um momento muito próximo) em que aquele que deseja transmitir.
+Para alcançar esses resultados foi adotado um padrão de ciclos de sono com períodos longos de inatividade (período de sono) e períodos de atividade curtos. Auto organização está presente na sincronização dos períodos de atividade/sono dos nós em uma vizinhança, fazendo com que os nós adotem um mesmo cronograma de funcionamento. Isso possibilita que eles possam se comunicar e transmitir informações com eficiência apesar do maior tempo de inatividade. Além disso pode-se reduzir o tamanho dos preâmbulos pois tem-se uma garantia de que os nós aos quais os dados se destinam estarão acordados no mesmo momento (ou em um momento muito próximo) em que aquele que deseja transmitir.
 
 \begin{figure}[!htb]
 \centering
@@ -129,5 +129,5 @@ Como desvantagem desse protocolo pode-se destacar que a sincronização dos cicl
  
 %AlÃ©m da implementaÃ§Ã£o de ciclos de sono tambÃ©m Ã© possÃ­vel utilizar ouros mecanismos para, em conjunto com ela, permitir um menor consumo de energia atravÃ©s da eliminaÃ§Ã£o ou reduÃ§Ã£o da ocorrÃªncia de outros problemas que podem ocasionar o consumo desnecessÃ¡rio de energia, como \textit{overhearing, protocol overhead, collision, idle lisetening, } etc. 
  
-%Esse tipo de controle Ã© realizado por protocolos MAC (Medium Access Control - Controle de Acesso ao Meio). Segundo Karl e Willing os protocolos MAC determinam para um nÃ³ os pontos no tempo quando ele pode acessar o meio para tentar trasmitir dados, controles ou pacotes de gerenciamento para outro nÃ³ (unicast) ou para um grupo de nÃ³s (multicast, broadcast). 
+%Esse tipo de controle Ã© realizado por protocolos MAC (Medium Access Control - Controle de Acesso ao Meio). Segundo Karl e Willing os protocolos MAC determinam para um nÃ³ os pontos no tempo quando ele pode acessar o meio para tentar transmitir dados, controles ou pacotes de gerenciamento para outro nÃ³ (unicast) ou para um grupo de nÃ³s (multicast, broadcast). 
  
