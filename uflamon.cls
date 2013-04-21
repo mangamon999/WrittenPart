@@ -145,6 +145,7 @@
 \keywords{} %inicialmente vazio
 
 \newcommand{\resumo}[1]{
+\addcontentsline{toc}{section}{Resumo}
 \begin{center}\textbf{RESUMO}\end{center}
 \begin{singlespace}
 

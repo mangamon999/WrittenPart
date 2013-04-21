@@ -8,7 +8,7 @@ Redes de sensores sem fio (RSSF) são redes compostas por um grande número de n
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=200px,height=280px]{./Pictures/SensorNodesScatteredInASensorField.png}
+\includegraphics[width=242px,height=280px]{./Pictures/SensorNodesScatteredInASensorField.png}
 % SensorNodesScatteredInASensorField.png: 816x1056 pixel, 96dpi, 21.59x27.94 cm, bb=0 0 612 792
 % pdfLaTeX aceita figuras no formato PNG, JPG ou PDF
 % figuras vetoriais podem ser exportadas para eps e depois convertidas para pdf usando epstopdf
@@ -23,12 +23,12 @@ A Figura~\ref{fig:snsf} mostra um exemplo da disposição de uma rede desse tipo
 
 Listadas abaixo estão algumas diferenças significativas entre MANET e RSSF:
 \begin{itemize} 
-	\item O número de nós sensores em RSSF pode ser de uma ordem de magnitude muito acima da encontrada em redes \textit{ad hoc} \cite{Akyildiz2002}.
+	\item O número de nós sensores em RSSF pode ser de uma ordem de magnitude muito acima da encontrada em redes MANET \cite{Akyildiz2002}.
 	\item MANET são utilizadas em aplicações como comunicação por voz ou acesso a infraestrutura remota necessitando assim de equipamentos robustos o suficiente para suportar esse tipo de aplicações ao contrário de RSSFs que são compostas por equipamentos bem mais simples e limitados \cite{Karl2005}. 
 	\item RSSF são capazes de comportar variados cenários de aplicação, devido ao grande número de combinações possíveis de tecnologias de comunicação, computação e sensores. Por exemplo conseguindo trabalhar em diversas e variáveis densidades, o que irá requerer o uso de diferentes protocolos ou protocolos adaptativos. Tal flexibilidade existe também em MANET, porém em um nível bastante reduzido \cite{Karl2005}. 
 	\item A densidade das RSSF é bem maior que a encontrada nas MANET \cite{Akyildiz2002}.
 	\item Nós sensores de uma RSSF são suscetíveis a erros e a topologia da rede pode mudar com a morte ou adição de novos nós\cite{Akyildiz2002}. 
-	\item Em RSSF predomina o paradigma de comunicação \textit{broadcast}, ao contrário do que predomina em redes \textit{ad hoc} que é a comunicação \textit{point-to-point}.
+	\item Em RSSF predomina o paradigma de comunicação \textit{broadcast}, ao contrário do que predomina em redes MANET que é a comunicação \textit{point-to-point}.
 	\item Nós de uma RSSF podem não possuir uma identificação global devido ao grande número de nós sensores, pois isso causaria um grande \textit{overhead}.
 \end{itemize} 
 
@@ -51,11 +51,11 @@ Algumas das principais características que uma RSSF deve apresentar são:
 \subsection{Protocolos em RSSF} 
 %==============================
 
-Os protocolos utilizados em redes de sensores sem fio são responsáveis por prover comunicação eficiente em termos de energia e roteamento no meio sem fio, integração entre dados e protocolos de rede e promover o esforço cooperativo dos nós sensores \cite{Akyildiz2002}. Os protocolos são organizados como se dispostos em uma pilha onde cada camada desempenha um papel específico, necessário ao funcionamento da rede de sensores. Uma descrição de cada uma dessas camada é apresentada em \citeauthoronline{Akyildiz2002} \citeyear{Akyildiz2002} e descrita resumidamente a seguir. A Figura~\ref{fig:protocolStack} é uma representação da pilha de protocolos.
+Os protocolos utilizados em redes de sensores sem fio são responsáveis por prover comunicação eficiente em termos de energia e roteamento no meio sem fio, integração entre dados e protocolos de rede e promover o esforço cooperativo dos nós sensores \cite{Akyildiz2002}. Os protocolos são organizados como se dispostos em uma pilha onde cada camada desempenha um papel específico, necessário ao funcionamento da rede de sensores. Uma descrição de cada uma dessas camada é apresentada em \citeauthoronline{Akyildiz2002} (\citeyear{Akyildiz2002}) e descrita resumidamente a seguir. A Figura~\ref{fig:protocolStack} é uma representação da pilha de protocolos.
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=230px,height=280px]{./Pictures/ProtocolStack.png}
+\includegraphics[width=308px,height=280px]{./Pictures/ProtocolStack.png}
 % SensorNodesScatteredInASensorField.png: 816x1056 pixel, 96dpi, 21.59x27.94 cm, bb=0 0 612 792
 % pdfLaTeX aceita figuras no formato PNG, JPG ou PDF
 % figuras vetoriais podem ser exportadas para eps e depois convertidas para pdf usando epstopdf
@@ -78,14 +78,14 @@ Os protocolos utilizados em redes de sensores sem fio são responsáveis por pro
  
  \subsubsection*{Protocolos de controle de acesso ao meio}
  
-Os protocolos de controle de acesso ao meio (\textit{Medium Access Control Protocols}) são o foco desse trabalho e atuam nessa camada. Eles coordenam o acesso ao meio físico por nós ativos. Esses protocolos são de grande importância, uma vez que o canal de comunicação sem fio (\textit{wireless}) é inerentemente propenso a erros, e precisam tratar de problemas específicos desse tipo de rede, tais como: o problema do terminal escondido (\textit{hidden-terminal}), problema do terminal exposto (\textit{exposed-terminal}) e efeitos do desvanecimento de sinal (\textit{signal fading effects}) \cite{Kumar06mediumaccess}. Esses protocolos serão abordados mais detalhadamente na sessão ~\ref{sec:macProtocols}.
+Os protocolos de controle de acesso ao meio (\textit{Medium Access Control Protocols}) são o foco desse trabalho e atuam nessa camada. Eles coordenam o acesso ao meio físico por nós ativos. Esses protocolos são de grande importância, uma vez que o canal de comunicação sem fio (\textit{wireless}) é inerentemente propenso a erros, e precisam tratar de problemas específicos desse tipo de rede, tais como: o problema do terminal escondido (\textit{hidden-terminal}), problema do terminal exposto (\textit{exposed-terminal}) e efeitos do desvanecimento de sinal (\textit{signal fading effects}) \cite{Kumar06mediumaccess}. Esses protocolos serão abordados mais detalhadamente na seção ~\ref{sec:macProtocols}.
 
  
  %---------------------------------------------------------------------
  \subsubsection{Camada de rede (\textit{Network layer})} 
  %------------------------------------------------------
  
- Técnicas convencionais de roteamento não são aplicáveis às características específicas desse tipo de redes (abordadas na sessão~\ref{sec:featuresRSSF}). Segundo \citeauthoronline{Guerses2005} (\citeyear{Guerses2005}), os protocolos dessa camada são desenvolvidos tendo em vista os seguintes aspectos:
+ Técnicas convencionais de roteamento não são aplicáveis às características específicas desse tipo de redes (abordadas na seção~\ref{sec:featuresRSSF}). Segundo \citeauthoronline{Guerses2005} (\citeyear{Guerses2005}), os protocolos dessa camada são desenvolvidos tendo em vista os seguintes aspectos:
  
  \begin{itemize}
  \item \textbf{Não há um identificador global}, devido a existência de poucos dados de eventos e um grande número de nós.
@@ -120,4 +120,4 @@ Os protocolos de controle de acesso ao meio (\textit{Medium Access Control Proto
  
 Em redes de sensores sem fio não existe uma hierarquia rígida nessa pilha de protocolos. Os protocolos de cada camada podem interagir diretamente com protocolos de outras camadas sem o envolvimento das camadas intermediárias.
 
-Nas seções seguintes serão apresentados mais detalhes sobre a porção mais significativa da camada de ligação, a subcamada responsável pelo controle de acesso ao meio (\emph{MAC}), foco principal deste trabalho. Serão apresentados protocolos existentes para essa camada, além de uma classificação desses protocolos em relação à atribuição de recursos aos nós.
+Nas seções seguintes serão apresentados mais detalhes sobre a porção mais significativa da camada de ligação, a subcamada responsável pelo controle de acesso ao meio (MAC), foco principal deste trabalho. Serão apresentados protocolos existentes para essa camada, além de uma classificação desses protocolos em relação à atribuição de recursos aos nós.

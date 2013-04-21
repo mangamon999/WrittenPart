@@ -25,7 +25,7 @@ As métricas utilizadas na comparação dos algoritmos foram as seguintes:
 
 Para a simulação e obtenção dos dados para comparação dos algoritmos, a rede utilizada foi uma rede homogênea composta por 210 nós estacionários, distribuídos uniformemente em uma região retangular plana, como mostra a Figura~\ref{fig:simulationNetwork}. Foram executadas 100 simulações de envios de pacote para cada protocolo avaliado. Em cada uma das simulações, foi selecionado como nó emissor (criador do pacote) um dos nós da borda da rede. Esse critério foi utilizado com o objetivo de garantir que nós que estivessem dentro do raio do \emph{backbone} não fossem selecionados como emissores, pois as transmissões originadas nessa região dificilmente passariam pelo backbone e seriam, portanto, de pouca relevância para a análise dos algoritmos. Os nós destino dos pacotes foram selecionados aleatoriamente.
 
-Os 100 pares origem/destino utilizados nas simulações do protocolo CS-MAC foram replicados para as simulações do protocolo S-MAC, com o objetivo de garantir maior precisão e confiabilidade dos resultados obtidos na comparação dos protocolos. Além disso, cada uma das transmissões foi realizada de maneira isolada, isto é, a partir do momento em que um pacote foi criado e enviado, um novo pacote só seria criado após este ter alcançado seu destino, evitando assim interferências\footnote{Apenas os pacotes da camada de aplicação foram isolados. Os pacotes de controle dos protocolos avaliados e das outras camadas continuaram a ser transmitidos normalmente}. As agendas utilizadas para as simulações de ambos os protocolos eram idênticas e determinavam um \emph{duty cycle} com duração de 1 segundo e 9 segundos de dormência (\emph{duty cycle} de $10%$). No caso do \emph{backbone}, o segundo período de atividade\footnote{Referentes às agendas esclusivas do \emph{backbone}} (Figura~\ref{fig:backboneSynchronization}) de cada nó era iniciado imediatamente após o término do primeiro, coincidindo com primeiro período de atividades do nó seguinte.   
+Os 100 pares origem/destino utilizados nas simulações do protocolo CS-MAC foram replicados para as simulações do protocolo S-MAC, com o objetivo de garantir maior precisão e confiabilidade dos resultados obtidos na comparação dos protocolos. Além disso, cada uma das transmissões foi realizada de maneira isolada, isto é, a partir do momento em que um pacote foi criado e enviado, um novo pacote só seria criado após este ter alcançado seu destino, evitando assim interferências\footnote{Apenas os pacotes da camada de aplicação foram isolados. Os pacotes de controle dos protocolos avaliados e das outras camadas continuaram a ser transmitidos normalmente}. As agendas utilizadas para as simulações de ambos os protocolos eram idênticas e determinavam um \emph{duty cycle} com duração de 1 segundo e 9 segundos de dormência (\emph{duty cycle} de $10\%$). No caso do \emph{backbone}, o segundo período de atividade\footnote{Referentes às agendas esclusivas do \emph{backbone}} (Figura~\ref{fig:backboneSynchronization}) de cada nó era iniciado imediatamente após o término do primeiro, coincidindo com primeiro período de atividades do nó seguinte.   
 
 \subsection{Análise de desempenho}
 
@@ -33,7 +33,7 @@ A Figura~\ref{fig:transmissionTimeComparison} mostra os resultados obtidos com r
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=360px,height=170px]{./Pictures/TransmissionTimeComparison.png}
+\includegraphics[width=360px,height=223px]{./Pictures/TransmissionTimeComparison.png}
 % pdfLaTeX aceita figuras no formato PNG, JPG ou PDF
 \caption{Comparação entre os tempos totais de transmissão de pacotes em cada protocolo.} %legenda
 \label{fig:transmissionTimeComparison} %rotulo para refencia
@@ -49,7 +49,7 @@ Pode-se verificar que o tempo de transmissão em cada protocolo se diferencia se
 \label{fig:backboneExceptions} %rotulo para refencia
 \end{figure}
 
-A Figura~\ref{fig:numberOfHopsComparison} mostra a comparação entre o número de saltos utilizados para transmissão de cada pacote, do nó origem até o nó destino. Os dados foram ordenados de acordo com a distância real (em linha reta) do nó origem até o nó destino, para facilitar a visualização. Pode-se observar que o número de transmissões aumentou consideravelmente ($17,3%$ em média) ao se utilizar o protocolo CS-MAC. Apesar disso, como observado anteriormente, o ganho de tempo ao se utilizar a via de transmissão rápida foi significativo ($25%$ em média). A Figura~\ref{fig:averageTransmissionTime} mostra uma comparação entre os tempos médios de transmissão de pacotes para cada protocolo.
+A Figura~\ref{fig:numberOfHopsComparison} mostra a comparação entre o número de saltos utilizados para transmissão de cada pacote, do nó origem até o nó destino. Os dados foram ordenados de acordo com a distância real (em linha reta) do nó origem até o nó destino, para facilitar a visualização. Pode-se observar que o número de transmissões aumentou consideravelmente ($17,3\%$ em média) ao se utilizar o protocolo CS-MAC. Apesar disso, como observado anteriormente, o ganho de tempo ao se utilizar a via de transmissão rápida foi significativo ($25\%$ em média). A Figura~\ref{fig:averageTransmissionTime} mostra uma comparação entre os tempos médios de transmissão de pacotes para cada protocolo.
 
 
 \begin{figure}[!htb]
@@ -64,7 +64,7 @@ O impacto negativo desse aumento no número de transmissões é o aumento no con
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=360px,height=170px]{./Pictures/NumberOfHopsComparison.png}
+\includegraphics[width=360px,height=223px]{./Pictures/NumberOfHopsComparison.png}
 % pdfLaTeX aceita figuras no formato PNG, JPG ou PDF
 \caption{Comparação entre os números de saltos necessários para completar as transmissões em cada protocolo.} %legenda
 \label{fig:numberOfHopsComparison} %rotulo para refencia

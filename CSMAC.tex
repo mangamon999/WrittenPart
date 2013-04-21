@@ -1,6 +1,6 @@
-\section{\emph{Configurable Sensor MAC} ou CS-MAC}
+\section{\emph{Configurable Sensor} MAC ou CS-MAC}
 
-O algoritmo desenvolvido nesse trabalho foi batizado de \emph{Configurable Sensor MAC} ou \emph{Sensor-MAC} configurável pois tem como base o algoritmo S-MAC descrito em \citeauthoronline{ye04} (\citeyear{ye04}). Conforme apresentado na seção ~\ref{sec:smac}, o protocolo S-MAC faz com que cada nó em uma vizinhança siga um mesmo cronograma que determina seus períodos de atividade e inatividade. Com isso, cada nó que deseja transmitir pacotes poderá fazê-lo no momento em que iniciar seu ciclo de atividades sem a necessidade do uso de longos preâmbulos pois o nó receptor iniciará seu ciclo de atividades no mesmo momento.
+O algoritmo desenvolvido nesse trabalho foi batizado de \emph{Configurable Sensor} MAC ou \emph{Sensor}-MAC configurável pois tem como base o algoritmo S-MAC descrito em \citeauthoronline{ye04} (\citeyear{ye04}). Conforme apresentado na seção ~\ref{sec:smac}, o protocolo S-MAC faz com que cada nó em uma vizinhança siga um mesmo cronograma que determina seus períodos de atividade e inatividade. Com isso, cada nó que deseja transmitir pacotes poderá fazê-lo no momento em que iniciar seu ciclo de atividades sem a necessidade do uso de longos preâmbulos pois o nó receptor iniciará seu ciclo de atividades no mesmo momento.
 
 O protocolo CS-MAC possui os mesmos mecanismos de funcionamento do protocolo S-MAC, podendo ser então considerado uma extensão desse protocolo, pois adiciona a ele mecanismos que permitem que seu funcionamento e configurações sejam alterados por outras camadas da pilha de protocolo, no caso deste trabalho, pela camada de aplicação (Seção ~\ref{sec:applicationLayer}). 
 
@@ -16,7 +16,7 @@ De forma simplificada, os algoritmos implementados são capazes de determinar qu
 \label{fig:circularBackbone} %rotulo para refencia
 \end{figure}
 
-Deve-se notar que não há intervalo entre as duas transmissões. Para que isso seja possível foi determinado que cada nó siga dois cronogramas de atividades distintos sendo que o primeiro cronograma determina um período de atividade no instante $X$ e o segundo determina um período de atividade no instante $X + T_A$. Além disso, o primeiro ciclo de atividade de cada nó que participa da cadeia descrita acima deve coincidir com o segundo ciclo de atividades de seu antecessor. A figura ~\ref{fig:backboneSynchronization} abaixo mostra como estão sincronizados os nós do exemplo anterior.
+Deve-se notar que não há intervalo entre as duas transmissões. Para que isso seja possível foi determinado que cada nó siga dois cronogramas de atividades distintos sendo que o primeiro cronograma determina um período de atividade no instante $X$ e o segundo determina um período de atividade no instante $X + T_A$. Além disso, o primeiro ciclo de atividade de cada nó que participa da cadeia descrita acima deve coincidir com o segundo ciclo de atividades de seu antecessor. A Figura ~\ref{fig:backboneSynchronization} abaixo mostra como estão sincronizados os nós do exemplo anterior.
 
 \begin{figure}[!htb]
 \centering

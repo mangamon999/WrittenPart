@@ -94,7 +94,9 @@ Sistemas de Informação para obtenção do título de Bacharel em Sistemas de I
 %\bancatres{Fulanim de Sicrano}% comente se sua banca tiver só um professor
 \defesa{Abril de 2013}
 \palchaves{Protocolo de controle de acesso ao meio; Auto-organização; Redes de sensores sem fio; RSSF; MAC.}
+%Protocolo de controle de acesso ao meio; Auto-organização; Redes de sensores sem fio; RSSF; MAC.}
 \keywords{Medium access control protocol; Self-organization; Wireless sensor networks; WSN; MAC.}
+%Medium access control protocol; Self-organization; Wireless sensor networks; WSN; MAC.}
 %==============================================================================
 
 %% dados para ficha catalográfica
@@ -114,19 +116,13 @@ Sistemas de Informação para obtenção do título de Bacharel em Sistemas de I
 \fcclasi{003.5}
 \fcclasii{005.43}
 
+\usepackage[portuguese,ruled,vlined]{algorithm2e}
+
 \begin{document}
 \maketitle
 
 %\dedic{Dedico esta monografia...}     % Dedicatórias
-\thanks{À Universidade Federal de Lavras (UFLA) e ao Departamento de Ciência da Computação (DCC), pela oportunidade concedida para realização deste trabalho.
-
-Aos professores do Departamento, pelos ensinamentos transmitidos e harmoniosa convivência.
-
-Ao professor Dr. Tales Heimfarth pela orientação, paciência, amizade, dedicação e seus ensinamentos que foram de grande relevância para a realização deste trabalho.
-
-Aos professores Dr. João Carlos Giacomin e Dr. Luiz Henrique Andrade Correia, pela amizade, companheirismo e ensinamentos, que foram de grande valia para a realização deste trabalho e por se disporem a participar como membros na banca examinadora.
-
-Aos amigos graduandos, em especial a Alex Guimarães e Jesimar Arantes, por todo o apoio e incentivo durante a realização do trabalho.}         % Agradecimentos
+\thanks{À Universidade Federal de Lavras (UFLA) e ao Departamento de Ciência da Computação (DCC), pela oportunidade concedida para realização deste trabalho. \\Aos professores do Departamento, pelos ensinamentos transmitidos e harmoniosa convivência.\\Ao professor Dr. Tales Heimfarth pela orientação, paciência, amizade, dedicação e seus ensinamentos que foram de grande relevância para a realização deste trabalho.\\Aos professores Dr. João Carlos Giacomin e Dr. Luiz Henrique Andrade Correia, pela amizade, companheirismo e ensinamentos, que foram de grande valia para a realização deste trabalho e por se disporem a participar como membros na banca examinadora.\\Aos amigos graduandos, em especial a Alex Guimarães e Jesimar Arantes, por todo o apoio e incentivo durante a realização do trabalho.}         % Agradecimentos
 
 \pagestyle{ufla}
 \pagenumbering{roman}
@@ -134,12 +130,14 @@ Aos amigos graduandos, em especial a Alex Guimarães e Jesimar Arantes, por todo
 \tableofcontents                           % Sumário}
 \listoffigures                             % Lista de Figuras
 %\listoftables                              % Lista de Tabelas
+%\listofalgorithmes
 
-\resumo{Redes de sensores sem fio (RSSF) são redes compostas por um conjunto de nós sensores que trabalham de forma cooperativa para a realização de tarefas e monitoramento de uma região de interesse. Através do uso de protocolos auto-organizados a rede se mantêm em funcionamento sem a necessidade de interferência de agentes externos. Este trabalho propões um protocolo CS-MAC (\emph{Configurable Sensor-MAC}), que pode ser considerado como uma extenção do protocolo S-MAC (\emph{Sensor-MAC}), apresentado em \citeauthoronline{Ye2002} (\citeyear{Ye2002}), onde os nós são sincronizados de acordo com agendas que determinam seus ciclos de sono/atividade (\emph{duty cycles}). O CS-MAC adiciona ao S-MAC mecanismos que possibilitam a determinação de agendas de maneira arbitrária por outras camadas da pilha de protocolos. Utilizando esses mecanismos foi desenvolvida uma aplicação capaz de construir uma via de transmissão rápida (\emph{backbone}) de pacotes com o objetivo de reduzir a latência introduzida pelos utilização de \emph{duty cycles}. Por meio de simulações, constatou-se que o CS-MAC um \emph{duty cycle} de $10%$, foi possível reduzir a latência média em $25%$ em relação ao S-MAC, chegando a $58%$ no melhor caso. 
+\resumo{Redes de sensores sem fio (RSSF) são redes compostas por um conjunto de nós sensores que trabalham de forma cooperativa para a realização de tarefas e monitoramento de uma região de interesse. Através do uso de protocolos auto-organizados a rede se mantêm em funcionamento sem a necessidade de interferência de agentes externos. Este trabalho propões um protocolo CS-MAC (\emph{Configurable Sensor}-MAC), que pode ser considerado como uma extenção do protocolo S-MAC (\emph{Sensor}-MAC), apresentado em \citeauthoronline{Ye2002} (\citeyear{Ye2002}), onde os nós são sincronizados de acordo com agendas que determinam seus ciclos de sono/atividade (\emph{duty cycles}). O CS-MAC adiciona ao S-MAC mecanismos que possibilitam a determinação de agendas de maneira arbitrária por outras camadas da pilha de protocolos. Utilizando esses mecanismos foi desenvolvida uma aplicação capaz de construir uma via de transmissão rápida (\emph{backbone}) de pacotes com o objetivo de reduzir a latência introduzida pelos utilização de \emph{duty cycles}. Por meio de simulações, constatou-se que o CS-MAC um \emph{duty cycle} de $10\%$, foi possível reduzir a latência média em $25\%$ em relação ao S-MAC, chegando a $58\%$ no melhor caso. 
 }%
 %
-\resumoingles{Wireless sensor networks (WSN) are networks composed of a set of sensor nodes working cooperatively to accomplish tasks and monitoring a region of interest. Through the use of self-organizing protocols, the network can operate without interference of external agents. This paper proposes CS-MAC (Configurable Sensor MAC), which can be considered as an extension of the S-MAC (Sensor MAC) protocol, found in \citeauthoronline{Ye2002} (\citeyear{Ye2002}), where the nodes are synchronized according to schedules that determine sleep/wakeup cycles (duty cycles). The CS-MAC adds to S-MAC mechanisms to enable determination of arbitrary schedules by other layers of the protocol stack. Using these mechanisms, an application able to build a route of rapid transmission (backbone) of packets in order to reduce the latency introduced by the use of  duty cycles was developed. Through simulations, it was found that using a $10%$ duty cycle, the CS-MAC could reduce the average latency in $25%$ compared to S-MAC, reaching $58%$ at best .
+\resumoingles{Wireless sensor networks (WSN) are networks composed of a set of sensor nodes working cooperatively to accomplish tasks and monitoring a region of interest. Through the use of self-organizing protocols, the network can operate without interference of external agents. This paper proposes CS-MAC (Configurable Sensor MAC), which can be considered as an extension of the S-MAC (Sensor MAC) protocol, found in \citeauthoronline{Ye2002} (\citeyear{Ye2002}), where the nodes are synchronized according to schedules that determine sleep/wakeup cycles (duty cycles). The CS-MAC adds to S-MAC mechanisms to enable determination of arbitrary schedules by other layers of the protocol stack. Using these mechanisms, an application able to build a route of rapid transmission (backbone) of packets in order to reduce the latency introduced by the use of  duty cycles was developed. Through simulations, it was found that using a $10\%$ duty cycle, the CS-MAC could reduce the average latency in $25\%$ compared to S-MAC, reaching $58\%$ at best.
 }
+
 \clearpage
 
 %\pagestyle{ufla}

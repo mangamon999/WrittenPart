@@ -22,7 +22,7 @@ A partir do momento em que os nós que utilizam o protocolo S-MAC são ligados, 
 	\item Tendo criado ou recebido uma agenda, irá configurar-se para acordar e dormir de acordo com essa agenda.
 \end{itemize}
 
-A partir do momento em que um nó adquire uma agenda seus ciclos de atividade e sono passarão a ser executados repetidamente. Alguns outros mecanismos fazem parte do protocolo, mas um aprofundamento maior foge ao escopo desse trabalho. Mais detalhes sobre o funcionamento do protocolo S-MAC podem ser encontrados em \citeauthoronline{ye04} \citeyear{ye04}. 
+A partir do momento em que um nó adquire uma agenda seus ciclos de atividade e sono passarão a ser executados repetidamente. Os pacotes de controle e o funcionamento do \emph{duty cycle} estão descritos mais detalhadamente na seção ~\ref{sec:smac}. Informações complementares e mais detalhadas sobre o funcionamento do protocolo S-MAC podem ser encontrados em \citeauthoronline{ye04} (\citeyear{ye04}). 
 
 Além dos mecanismos providos pelo protocolo S-MAC, o novo algoritmo adiciona uma \emph{API} (\emph{Application Program Interface}) para que outras camadas da pilha de protocolo possam determinar novas agendas para o nó. Por meio desta, diferentes tipos de configurações para a sincronização entre os nós podem ser determinadas, por exemplo, pela camada de aplicação.
 
@@ -31,35 +31,134 @@ Neste trabalho, o algoritmo desenvolvido utiliza agentes que percorrem a rede em
 \subsection{Cálculo da distância ao centro da rede}
 \label{sec:calculoDistancia}
 
-Para se determinar a distância de cada nó ao centro da rede é necessário conhecer a sua posição. A maneira mais simples é a utilização de nós que possuam sistema de GPS (\emph{Global Positioning System} ou Sistema de Posicionamento Global). Tal sistema permite determinar com precisão a posição a posição de cada nó. Bastaria então que os agentes conhecessem as coordenadas de um ponto no centro da rede para que pudessem determinar se um nó satisfaz ou não aos parâmetros que determinam o raio da estrutura circular a ser construída.
+Para se determinar a distância de cada nó ao centro da rede é necessário conhecer a sua posição. A maneira mais simples é a utilização de nós que possuam sistema de GPS (\emph{Global Positioning System} ou Sistema de Posicionamento Global). Tal sistema permite determinar com precisão a posição de cada nó. Bastaria então que os agentes conhecessem as coordenadas de um ponto no centro da rede para que pudessem determinar se um nó satisfaz ou não aos parâmetros que determinam o raio da estrutura circular a ser construída.
 
-Para a utilização de sistema de posicionamento global (GPS) é necessário que cada nó possua \emph{hardware} específico para tal, o que aumenta o seu custo e consumo de energia. Como alternativa ao uso desse sistema é possível realizar o cálculo das distâncias a partir de um nó central. Esse nó inicial comunicaria em \emph{broadcast} aos seus vizinhos que ele é o ponto zero. Cada um de seus vizinhos que receba esse pacote poderá determinar sua distância a esse nó central com base na intensidade do sinal recebido.  Cada um desses nós então irá fazer um novo \emph{broadcast} para informar sua distância do centro e assim sucessivamente. 
+Para a utilização de sistema de posicionamento global (GPS) é necessário que cada nó possua \emph{hardware} específico para tal, o que aumenta o seu custo e consumo de energia. Como alternativa ao uso desse sistema existem vários algoritmos de localização propostos que se utilizam de cálculos para determinar a posição de cada nó em relação à rede como um todo.
 
-Para aumentar a precisão do cálculo de sua posição, um nó que já tenha recebido um desses pacotes e receba um novo pacote que determine uma distância menor ao centro da rede, atualizará seu parâmetro de distância e fará um novo \emph{broadcast} para atualizar seus vizinhos. Isso irá gerar um \emph{flooding} de pacotes na rede, após o qual cada nó conhecerá sua posição e a de seus vizinhos em relação ao nó central e os agentes poderão utilizar esses valores para a construção da estrutura circular. 
+A abordagem da maioria dos algoritmos de localização existentes consiste de duas fazes: estimação de distâncias (ou ângulos) e combinação de distâncias (ou ângulos). Esse cálculo pode ser realizado através de técnicas como o Indicador de Força de Sinal Recebido (\emph{Received Signal Strength Indicator}), estimação de Ângulo de Chegada (\emph{Angle-of-Arrival estimation}), Trilateração Hiperbólica (\emph{Hyperbolic trilateration}), dentre outras \cite{Pal2010}. 
+
+Um maior aprofundamento foge ao escopo deste trabalho, maiores informações do estado da arte e uma análise detalhada de técnicas de localização em RSSF podem ser encontradas em \citeauthoronline{Pal2010} (\citeyear{Pal2010}). 
+
+As seções seguintes apresentarão os algoritmos utilizados para a construção da via de transmissão rápida de pacotes (\emph{backbone}). Para a implementação dos algoritmos propostos neste trabalho assume-se que os nós conheçam suas posições e de todo os outos nós da rede de sensores.
 
 \subsection{Construção do círculo}
 \label{sec:circleBuilding}
 
-Dado que a distância de cada nó em relação ao centro da rede pode ser obtida através das soluções apresentadas na seção anterior (~\ref{sec:calculoDistancia}), foram utilizados três agentes para a construção da estrutura circular: 
+Dado que a distância de cada nó em relação ao centro da rede pode ser obtida (conforme apresentado na seção~\ref{sec:calculoDistancia}), foram utilizados três agentes para a construção da estrutura circular: 
 
 \begin{itemize}
  \item \textbf{\emph{Root finder:}} responsável por percorrer a rede em busca de algum nó que cumpra o requisito de distância do centro da rede (raio do círculo formado). O nó selecionado por esse agente será o nó raiz na estrutura a ser formada. Após encontrar o nó raiz, esse agente irá criar o próximo agente. 
+
+ \begin{algorithm}[H]
+%	\SetAlgoLined
+	\SetKwFunction{criarCircleRevoker}{criarAgenteCircleRevoker}
+	\SetKwFunction{encontreVizinhoMaisProximoDoRaio}{encontreVizinhoMaisProximoDoRaio}
+	\SetKwFunction{configurarAgendasDeBackbone}{configurarAgendasDeBackbone}
+	\SetKwFunction{encaminhe}{encaminhe}
+	
+	\Entrada{Posição central da rede, Posição do nó corrente, Raio do backbone, Variabilidade}
+
+	mínimo = Raio do backbone - Variabilidade\;
+	máximo = Raio do backbone + Variabilidade\;
+	
+	\eSe{mínimo <= distância do nó ao centro <= máximo}{
+		\determinarComoNoRaiz(nó corrente)\;
+		circleBuilder = \criarCircleBuilder()\;
+		circleBuilder.\configurarAgendasDeBackbone(nó corrente)\;
+		destino = \encontreVizinhoMaisProximoDoRaio()\;
+		\encaminhe(circleBuilder, destino)\;
+	}{
+		destino = \encontreVizinhoMaisProximoDoRaio()\;
+		\encaminhe(rootFinder, destino)\;
+	}
+	
+\caption{Algoritmo utilizado para encontrar o nó raiz e determinar a criação do agente \emph{Circle Builder}.}
+\end{algorithm}
+ 
  \item \textbf{\emph{Circle builder:}} responsável por criar as agendas para cada nó (incluindo o nó raiz), determinar qual vai ser o próximo nó que fará parte da estrutura. Ele selecionará vários nós (conforme os mesmos parâmetros do nó anterior) até alcançar algum que já faça parte da estrutura (fechando o círculo), quando então ele criará o próximo agente.
+
+\begin{algorithm}[H]
+%	\SetAlgoLined
+	\SetKwFunction{criarCircleRevoker}{criarAgenteCircleRevoker}
+	\SetKwFunction{encontreVizinhoMaisProximoDoRaio}{encontreVizinhoMaisProximoDoRaio}
+	\SetKwFunction{configurarAgendasDeBackbone}{configurarAgendasDeBackbone}
+	\SetKwFunction{encaminhe}{encaminhe}
+	\SetKwFunction{guardarAntecessor}{guardarAntecessor}
+	\SetKwFunction{noQueEnviou}{noQueEnviou}	
+	
+	\Entrada{Agente CircleBuilder}
+
+	circleBuilder.\configurarAgendasDeBackbone(nó corrente)\;
+	
+	\eSe{nó corrente NÃO pertence ao backbone}{
+		\guardarAntecessor(circleBuilder.\noQueEnviou())\;
+		destino = \encontreVizinhoMaisProximoDoRaio()\;
+		\encaminhe(circleBuilder, destino)\;
+	}{
+		destino = antecessorCorrente\;
+		\guardarAntecessor(circleBuilder.\noQueEnviou())\;
+				
+		\Se{destino NÃO é nulo} { 
+			circleRevoker = \criarCircleRevoker()\;
+			\encaminhe(circleRevoker, destino)\;
+		}
+	}
+	
+\caption{Algoritmo utilizado para criar o círculo e determinar a criação do agente \emph{Circle Revoker}.}
+\end{algorithm}
+  
+ 
  \item \textbf{\emph{Circle revoker:}} caso o último nó encontrado pelo agente \emph{Circle builder} não coincida com o nó raiz encontrado pelo agente \emph{Root finder}, esse agente será responsável por remover as agendas extras dos nós que foram selecionado, mas não fazem parte do círculo formado (``pontas soltas''), fazendo com que eles voltem a seguir apenas suas agendas originais.
 \end{itemize}
+
+\begin{algorithm}[H]
+%	\SetAlgoLined
+	\SetKwFunction{removerAgendasDeBackbone}{removerAgendasDeBackbone}
+	\SetKwFunction{encaminhe}{encaminhe}
+	
+	\Entrada{Agente CircleRevoker}
+
+	circleRevoker.\removerAgendasDeBackbone(nó corrente)\;
+	
+	destino = antecessorCorrente\;
+	
+	\Se{destino NÃO é nulo} { 
+		\encaminhe(circleRevoker, destino)\;
+	}
+	
+\caption{Algoritmo utilizado para eliminar os nós deverão deixar de ser parte do \emph{backbone}.}
+\end{algorithm}
 
 \subsection{Roteamento dos pacotes}
 
 Para que a configuração circular formada dentro da rede pelos algoritmos descritos nas seções anteriores produza efeitos sobre o tempo das transmissões de pacotes dentro da rede, é preciso rotear os pacotes de forma que, caso seja possível, eles sejam encaminhados através da estrutura formada até um ponto próximo do nó destino, quando o pacote deixará a estrutura e será encaminhado ao seu destino através dos mecanismos normais. 
 
-A elaboração de um algoritmo de roteamento de pacotes foge ao escopo desse trabalho. Portanto, com o objetivo de avaliar o desempenho do algoritmo proposto, a determinação do nó receptor em cada transmissão foi feita pelo gerenciador da simulação conforme os seguintes critérios:
+Existem diversos algoritmos propostos para roteamento de pacotes em RSSF. \citeauthoronline{Al-karaki04routingtechniques} (\citeyear{Al-karaki04routingtechniques}) apresenta o estado da arte desses protocolos. Como  neste trabalho assume-se que os nós conheçam suas posições e posições de todos os outros nós, algoritmos de roteamento geográficos seriam a opção mais adequada devido à mior simplicidade e eficiência dos mesmos \cite{Pal2010}.  
+
+A implementaçnao de um algoritmo de roteamento de pacotes foge ao escopo desse trabalho. Portanto, com o objetivo de avaliar o desempenho do algoritmo proposto, o roteamento foi feito pelo gerenciador da simulação de forma a simular um algoritmo de roteamento geográfico que seguisse os seguintes critérios:
 
 \begin{itemize}
 \item Caso haja um nó vizinho ao nó transmissor que pertencente à estrutura formada e que esteja mais próximo do nó de destino do pacote do que o transmissor, esse nó será selecionado
 \item Caso o critério anterior não seja cumprido, será selecionado como receptor, aleatoriamente, um dos três nós vizinhos mais próximos do nó de destino
 \end{itemize}
 
-Utilizando esses critérios foi possível simular um algoritmo de roteamento capaz de fazer com que os pacotes sejam transmitidos através da estrutura circular formada, possibilitando assim a avaliação de seu desempenho.
+Utilizando esses critérios foi possível simular um algoritmo de roteamento capaz de fazer com que os pacotes sejam transmitidos através da estrutura circular formada, possibilitando assim a avaliação de seu desempenho. O algoritmo utilizado é apresentado abaixo em pseudo-código:
 
+\begin{algorithm}[H]
+%	\SetAlgoLined
+	\SetKwFunction{encontreOsTresVizinhosMaisProximos}{encontreOsTresVizinhosMaisProximos}
+	\SetKwFunction{selecioneAleatoriamente}{selecioneAleatoriamente}
+	
+	\Se{existe algum vizinho que é parte do backbone}{
+		\Se{esse vizinho está mais próximo do destino}{
+			\Retorna{[esse vizinho]}
+		} 
+	}
 
-
+	candidatos = \encontreOsTresVizinhosMaisProximos()\;
+	vizinhoSelecionado = \selecioneAleatoriamente(candidatos)\;
+	
+	\Retorna{[vizinhoSelecionado]}
+	
+\caption{Algoritmo utilizado para roteamento de pacotes.}
+\end{algorithm}

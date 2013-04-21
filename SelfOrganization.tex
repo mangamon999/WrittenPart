@@ -16,8 +16,8 @@
   % PREÂMBULO 
  \footnote{Preâmbulo é um fluxo de dados utilizado para comunicar a intenção de transmitir. Tem duração variável de acordo com o período de sono, pois é preciso garantir que o destinatário receba esse preâmbulo e identifique-se como receptor dos pacotes de dados que serão enviados em seguida.} 
  %
-. Através da verificação periódica do meio em busca de atividades de comunicação \cite{El-Hoiydi2004}. Tal verificação consiste em uma varredura de curta duração do canal de rádio. Cada nó verifica o meio com um mesmo período constante \textit{Tw} (Figura ~\ref{fig:wisemac}). Se o meio está ocupado, o nó sensor continua a ouvi-lo até receber um quadro de dados ou até o meio ficar desocupado novamente. Antes de cada quadro de dados ser enviado, o ponto de acesso (\textit{access point}) envia um preâmbulo com a mesma duração do período de verificação para garantir que o receptor esteja acordado no momento em que o quadro de dados for enviado. Essa técnica promove um baixo consumo de energia quando o canal está desocupado, porém tem como desvantagem o fato de que os preâmbulos utilizados podem causar limitações à velocidade de transmissão entre pontos distantes e maior consumo de energia devido a sobrecarga nos receptores e ao fato de todos os nós permanecerem ouvindo essa transmissão (\textit{overhearing}). Um ganho considerável é conseguido ao fazer com que os pontos de acesso conheçam os ciclos de verificação dos outros nós pois ele poderá iniciar transmissões somente no momento em que os outros nós estarão ouvindo.
- 
+. Através da verificação periódica do meio em busca de atividades de comunicação \cite{El-Hoiydi2004}. Tal verificação consiste em uma varredura de curta duração do canal de rádio. Cada nó verifica o meio com um mesmo período constante \textit{Tw} (Figura ~\ref{fig:wisemac}). Se o meio está ocupado, o nó sensor continua a ouvi-lo até receber um quadro de dados ou até o meio ficar desocupado novamente. Antes de cada quadro de dados ser enviado, o ponto de acesso (\textit{access point}) envia um preâmbulo com a mesma duração do período de verificação para garantir que o receptor esteja acordado no momento em que o quadro de dados for enviado. 
+
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=340px,height=220px]{./Pictures/wisemac.png}
@@ -28,12 +28,34 @@
 \label{fig:wisemac} %rotulo para refencia
 \end{figure}
 
+Essa técnica promove um baixo consumo de energia quando o canal está desocupado, porém tem como desvantagem o fato de que os preâmbulos utilizados podem causar limitações à velocidade de transmissão entre pontos distantes e maior consumo de energia devido a sobrecarga nos receptores e ao fato de todos os nós permanecerem ouvindo essa transmissão (\textit{overhearing}). Um ganho considerável é conseguido ao fazer com que os pontos de acesso conheçam os ciclos de verificação dos outros nós pois ele poderá iniciar transmissões somente no momento em que os outros nós estarão ouvindo.
+
  \subsubsection{S-MAC}
  \label{sec:smac}
  
 Sensor-MAC ou S-MAC foi desenvolvido para ter primordialmente baixo consumo de energia, além disso conseguiu-se também boa escalabilidade e baixo número de colisões \cite{ye04}. Para conseguir esse resultados foram tratados os seguintes problemas identificados pelo autor como responsáveis pelo consumo excessivo de energia na rede: colisões de pacotes, que causam a retransmissão desses pacotes e consequente consumo extra de energia além de aumentar a latência na rede; \textit{overhearing}, que acontece quando os nós recebem pacotes que não são destinados a eles; excesso (\textit{overhead}) de pacotes de controle; e \textit{idle listening}, quando um nó permanece em modo de recepção aguardando por pacotes que não são enviados.
 
-Para alcançar esses resultados foi adotado um padrão de ciclos de sono com períodos longos de inatividade (período de sono) e períodos de atividade curtos. Auto organização está presente na sincronização dos períodos de atividade/sono dos nós em uma vizinhança, fazendo com que os nós adotem um mesmo cronograma de funcionamento. Isso possibilita que eles possam se comunicar e transmitir informações com eficiência apesar do maior tempo de inatividade. Além disso pode-se reduzir o tamanho dos preâmbulos pois tem-se uma garantia de que os nós aos quais os dados se destinam estarão acordados no mesmo momento (ou em um momento muito próximo) em que aquele que deseja transmitir.
+Para alcançar esses resultados foi adotado um padrão de ciclos de sono com períodos longos de inatividade (período de sono) e períodos de atividade (\emph{duty cycle}) curtos. Auto organização está presente na sincronização dos períodos de atividade/sono dos nós em uma vizinhança, fazendo com que os nós adotem um mesmo cronograma de funcionamento. 
+
+No momento em que cada nó é ligado, ele permanecerá ouvindo o meio com o objetivo de verificar a existências de nós vizinhos que já possuam agendas determinadas. Para que seja possível essa detecção, no início de seu \emph{duty cycle}, cada nó verifica o meio e, caso esteja desocupado, envia um pacote de sincronização (\emph{sync packet}) contendo informações da sua agenda. Os receptores desse pacote podem então adotar essa agenda e passam a possuir o mesmo \emph{duty cycle} do nó transmissor. 
+
+Para evitar colisões no envio desses pacotes, antes de verificar a disponibilidade do meio para envio do \emph{sync packet} (Figura ~\ref{fig:SmacDutyCycle}), cada nó aguarda por um período de tempo aleatório. Esse período de espera é chamado período de contenção. 
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=360px,height=108px]{./Pictures/S-MACDutyCycle.png}
+% SensorNodesScatteredInASensorField.png: 816x1056 pixel, 96dpi, 21.59x27.94 cm, bb=0 0 612 792
+% pdfLaTeX aceita figuras no formato PNG, JPG ou PDF
+% figuras vetoriais podem ser exportadas para eps e depois convertidas para pdf usando epstopdf
+\caption{Funcionamento do \emph{duty cycle} no protocolo S-MAC.} %legenda
+\label{fig:SmacDutyCycle} %rotulo para refencia
+\end{figure}
+
+A segunda parte do \emph{duty cycle} é reservada para transmissão e recepção de dois outros pacotes de controle que determinam se um nó pode enviar ou receber pacotes de dados. O primeiro desses pacotes é o RTS (\emph{Request To Send}). Um nó que deseja transmitir dados deve aguardar um novo período de contenção e então verificar novamente a disponibilidade do meio (Figura ~\ref{fig:SmacDutyCycle}). Caso o meio esteja disponível, ele enviará ao nó para o qual deseja transmitir um pacote RTS. Após receber um pacote RTS o nó receptor poderá enviar um pacote CTS (\emph{Clear To Send}) para notificar o transmissor que pode receber o pacote (Figura ~\ref{fig:SmacDutyCycle}). O nó não enviará o CTS nos casos onde já tenha ouvido um RTS ou CTS de um de seus vizinhos ou caso na sua vizinhança o meio esteja ocupado.
+
+Após receber um CTS o nó transmissor aguarda o final do período de tempo reservado à transmissão dos pacotes de controle e então inicia a sua transmissão (Figura ~\ref{fig:SmacDutyCycle}). Ao final da transmissão, o no transmissões aguardará que seu receptor envie um pacote de confirmação de recebimento chamado ACK (\emph{Acknowledgement}). Após receber esse pacote, ele poderá continuar enviando pacotes de dados da mesma maneira. Caso o nó transmissor não receba um ACK, ele tentará reenviá-lo. Caso o nó não obtenha sucesso no envio de um pacote após algumas tentativas, o pacote poderá ser descartado.
+
+Todo esse mecanismo possibilita que eles possam se comunicar com eficiência e se manterem sincronizados apesar do maior tempo de inatividade. Além disso, elimina a necessidade do uso de preâmbulos pois tem-se uma garantia de que os nós aos quais os dados se destinam estarão acordados no mesmo momento (ou em um momento muito próximo) em que aquele que deseja transmitir.
 
 \begin{figure}[!htb]
 \centering
@@ -47,42 +69,41 @@ Para alcançar esses resultados foi adotado um padrão de ciclos de sono com per
  
 Como desvantagem desse protocolo pode-se destacar que a sincronização dos ciclos de sono se dá entre um certo número de nós de uma região da rede e os nós que ficam no limiar entre duas regiões devem sincronizar-se com ambas as regiões (Figura ~\ref{fig:SmacSynch}). Isso faz com que o consumo de energia desses nós seja maior, reduzindo-se assim o seu tempo de vida útil.
  
+ 
+\subsubsection{T-MAC} 
 
-%%%%%%%%%%%%%%%%%%%%%%%%Nós sensores são alimentados por baterias, o que faz com que o consumo de energia seja uma restrição muito forte a ser tratada. Crescentes avanços tecnológicos tem tornado o custo de produção dos nós cada vez menor. Em razão disso, tem se tornado cada vez mais vantajoso substituir os nós ao invés de trocar suas baterias, tendo em vista que, na maioria dos casos, eles são inseridos em ambientes que dificultam ou mesmo impossibilitam o procedimento de troca.  
- 
- 
- 
-%\subsection{Transceiver operational states} \cite{Karl2005} pdf-p.47
+\citeauthoronline{vanDam:2003:AEM:958491.958512} (\citeyear{vanDam:2003:AEM:958491.958512}) apresentam o protocolo T-MAC. O T-MAC é um protocolo de controle de acesso ao meio baseado em contensão e, assim como o S-MAC, também utiliza \emph{duty cycles} e sincronização de nós. O que o diferencia do S-MAC é que o \emph{duty cycle} dos nós é adaptado de acordo com o tráfego da rede de sensores. O fim do período de atividades é determinado por um \emph{timeout}. Esse \emph{timeout} é configurado para que seja suficiente para a realização de um curto período de contenção e uma troca de pacotes RTS e CTS. 
 
+Ao final desse período, caso o nó não tenha detectado nenhuma atividade no meio ele terminará seu \emph{duty cycle} e voltará a dormir. Caso o nó receba pacotes ou detecte o envio de pacotes entre seus vizinhos, ele irá iniciar um novo \emph{timeout} após o final desta comunicação (Figura ~\ref{fig:TmacDutyCycles}). 
 
+Um problema encontrado nesse protocolo é que um nó que deseja transmitir um pacote, mas perde a contenção para um vizinho não comum, pemanecerá em espera até o final da transmissão desse vizinho. Ao final dessa transmissão, ele iniciará um novo \emph{timeout} e enviará um CTS, mas não receberá a resposta do nó destino, uma vez que ele não terá detectado a atividade do nó que venceu a contensão anterior.
 
-% sensor-MAC (S-MAC), a MAC protocol
-% explicitly designed for wireless sensor networks. While re-
-% ducing energy consumption is the primary goal in our design,
-% S-MAC also achieves good scalability and collision avoidance
-% by utilizing a combined scheduling and contention scheme.
-% To achieve the primary goal of energy efficiency, we need to
-% identify what are the main sources that cause inefficient use of
-% energy as well as what tradeoffs we can make to reduce energy
-% consumption.
-% 
-% We have identified the following major sources of energy
-% waste. The first one is collision. When a transmitted packet is
-% corrupted, it has to be discarded, and follow-on re-transmis-
-% sions increase energy consumption. Collision increases latency
-% as well. The second source is overhearing, meaning that a
-% node picks up packets that are destined to other nodes. The
-% third source is control packet overhead. Sending and receiving
-% control packets consumes energy too. The last major source of
-% inefficiency is idle listening, i.e., listening to receive possible
-% traffic that is not sent. This is especially true in many sensor
-% network applications. If nothing is sensed, nodes are in idle
-% mode for most of the time. 
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=290px,height=81px]{./Pictures/T-MACDutyCycles.png}
+% SensorNodesScatteredInASensorField.png: 816x1056 pixel, 96dpi, 21.59x27.94 cm, bb=0 0 612 792
+% pdfLaTeX aceita figuras no formato PNG, JPG ou PDF
+% figuras vetoriais podem ser exportadas para eps e depois convertidas para pdf usando epstopdf
+\caption{\emph{Duty cycle} adaptativo no protocolo T-MAC.} %legenda
+\label{fig:TmacDutyCycles} %rotulo para refencia
+\end{figure}
 
-%\subsection{Ciclos de Sono} 
- 
-%Com o objetivo de aumentar o tempo de vida Ãºtil das RSSF sÃ£o utilizados ciclos de sono (\textit{sleep-wakeup cycle} ou \textit{duty cycle}) onde cada nÃ³ Ã© ligado apenas por um curto perÃ­odo de tempo (\textit{wakeup}) e entÃ£o desligado novamente (\textit{sleep}). Devido a utilizaÃ§Ã£o desse mecanismo, quando um nÃ³ precisa transmitir uma mensagem, ele deve permanecer ligado aguardando que seu destinatÃ¡rio tambÃ©m seja ligado e possa receber essa mensÃ¡gem. A utilizaÃ§Ã£o desse ciclos pode aumentar a vida Ãºtil das RSSF de poucos dias para vÃ¡rios meses ou mesmo anos dependendo da razÃ£o entre o tempo em que o nÃ³ permanece ligado e o tempo em que permanece desligado. Segundo \cite{1182838}, os parÃ¢metros chave para caracterizar os ciclos de sono incluem tempo desligado (emph{sleep time}), tempo ligado (\textit{wakeup time}), e a energia consumida durante cada um dos estados (ligado/desligado). 
- 
-%AlÃ©m da implementaÃ§Ã£o de ciclos de sono tambÃ©m Ã© possÃ­vel utilizar ouros mecanismos para, em conjunto com ela, permitir um menor consumo de energia atravÃ©s da eliminaÃ§Ã£o ou reduÃ§Ã£o da ocorrÃªncia de outros problemas que podem ocasionar o consumo desnecessÃ¡rio de energia, como \textit{overhearing, protocol overhead, collision, idle lisetening, } etc. 
- 
-%Esse tipo de controle Ã© realizado por protocolos MAC (Medium Access Control - Controle de Acesso ao Meio). Segundo Karl e Willing os protocolos MAC determinam para um nÃ³ os pontos no tempo quando ele pode acessar o meio para tentar transmitir dados, controles ou pacotes de gerenciamento para outro nÃ³ (unicast) ou para um grupo de nÃ³s (multicast, broadcast). 
+\subsubsection{D-MAC} 
+
+O protocolo D-MAC, apresentado em \citeauthoronline{1303264} (\citeyear{1303264}), também utiliza \emph{duty cybcles} para reduzir o consumo de energia dos nós e aumentar o tempo de vida da rede. O que o diferencia dos outros protocolos apresentados é o modo como é feita a sincronização dos nós. 
+
+Para o funcionamento desse protocolo é preciso que haja um nó concentrador (\emph{sync node}) conhecido. Assumindo-se que a maior parte da comunicação detro da rede será realizada em direção a esse nó concentrador, os nós são sincronizados a partir dele de forma que os nós que estejam a um número $n$ de saltos do nó concentrador iniciam seu \emph{duty cycle} um pouco depois dos nós que estão a uma distância em saltos igual a $n+1$ (Figura ~\ref{fig:DmacDutyCycles}).
+
+Essa sincronização permite que transmissões de pacotes em direção ao nó concentrador partindo de qualquer ponto da rede tenham sua latência bastante reduzida. Cada pacote recebido por um nós do nível $n$ pode ser enviado para um nó do nível $n-1$ quase imediatamente.
+
+O problema com esse protocolo é que ele só promove redução da latência de transmissão no sentido do gradiente em direção ao nó concentrador. Caso haja transmissões seguindo a direção contrária (como pacotes de requisição de dados), não haverá redução na latência dessas transmissões. 
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=290px,height=106px]{./Pictures/D-MACDutyCycles.png}
+% SensorNodesScatteredInASensorField.png: 816x1056 pixel, 96dpi, 21.59x27.94 cm, bb=0 0 612 792
+% pdfLaTeX aceita figuras no formato PNG, JPG ou PDF
+% figuras vetoriais podem ser exportadas para eps e depois convertidas para pdf usando epstopdf
+\caption{\emph{Duty cycle} sincronizado em níveis no protocolo D-MAC.} %legenda
+\label{fig:DmacDutyCycles} %rotulo para refencia
+\end{figure}
